@@ -13,11 +13,11 @@ function PhotoBox({ name, title, description }: PhotoBoxProps) {
         alt={name}
       />
       <div className="hidden sm:block mt-2 text-white">
-        <div className="hidden sm:block mt-2 text-white">
-                {name}
-        </div>        
+        <div className="hidden sm:block mt-2 text-white">{name}</div>
         {title && <p className="text-sm text-gray-300">{title}</p>}
-        {description && <p className="text-xs text-gray-400 mt-1">{description}</p>}
+        {description && (
+          <p className="text-xs text-gray-400 mt-1">{description}</p>
+        )}
       </div>
     </div>
   );

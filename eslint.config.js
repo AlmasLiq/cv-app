@@ -1,28 +1,41 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
+import globals from "globals";
+import js from "@eslint/js";
+import tseslint from "typescript-eslint";
+import pluginReact from "eslint-plugin-react";
+import prettier from "eslint-plugin-prettier";
+import prettierConfig from "eslint-config-prettier";
 
-export default tseslint.config(
-  { ignores: ['dist'] },
+/** @type {import('eslint').Linter.FlatConfig[]} */
+export default [
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    files: ['**/*.{ts,tsx}'],
+    files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
     languageOptions: {
-      ecmaVersion: 2020,
+      parser: tseslint.parser,
+      ecmaVersion: "latest",
+      sourceType: "module",
       globals: globals.browser,
     },
     plugins: {
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
+      react: pluginReact,
+      prettier: prettier,
     },
     rules: {
-      ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+      // Recommended ESLint, TypeScript, and React rules
+      ...js.configs.recommended.rules,
+      ...tseslint.configs.recommended.rules,
+      ...pluginReact.configs.recommended.rules,
+
+      // Prettier rules (disable conflicting ESLint rules)
+      ...prettierConfig.rules,
+
+      // Enforce CRLF line endings
+      "linebreak-style": ["error", "windows"],
+      // Run Prettier with CRLF end-of-line setting
+      "prettier/prettier": ["error", { endOfLine: "crlf" }],
+      "react/react-in-jsx-scope": "off",
+      // Custom overrides
+      "react/display-name": "warn",
+      "no-undef": "off",
     },
   },
-)
+];

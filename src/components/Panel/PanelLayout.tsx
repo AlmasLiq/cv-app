@@ -6,7 +6,10 @@ export default function Layout() {
 
   return (
     <div className="flex">
-      <Panel isOpen={isPanelOpen} onToggle={() => setIsPanelOpen(!isPanelOpen)} />
+      <Panel
+        isOpen={isPanelOpen}
+        onToggle={() => setIsPanelOpen(!isPanelOpen)}
+      />
     </div>
   );
 }
